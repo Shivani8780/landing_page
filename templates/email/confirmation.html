@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Ticket Confirmation</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { color: #2c3e50; }
+        .ticket-info { background: #f9f9f9; padding: 15px; margin: 15px 0; }
+        .footer { margin-top: 20px; font-size: 0.9em; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Thank you for your purchase!</h1>
+        <p>Hello {{ name }},</p>
+        <p>Your tickets for {{ event_name }} have been confirmed.</p>
+        
+        <div class="ticket-info">
+            <h3>Order Details</h3>
+            <p><strong>Event:</strong> {{ event_name }}</p>
+            <p><strong>Date:</strong> 
+                {% if event == 'winter-festival' %}
+                    December 25, 2025
+                {% elif event == 'spring-jazz' %}
+                    May 15, 2025
+                {% else %}
+                    July 20, 2025
+                {% endif %}
+            </p>
+            <p><strong>Tickets:</strong> {{ quantity }} x General Admission</p>
+            <p><strong>Total:</strong> ${{ "%.2f"|format(total) }}</p>
+        </div>
+
+        <p>Your e-tickets will be available in your account 24 hours before the event.</p>
+        
+        <div class="footer">
+            <p>If you have any questions, please contact support@example.com</p>
+        </div>
+    </div>
+</body>
+</html>
