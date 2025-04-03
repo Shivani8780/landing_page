@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+<style>
+    .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg');
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero text-white py-32 mb-16 rounded-lg">
+    <div class="container mx-auto text-center">
+                <h1 class="text-5xl font-bold mb-6">Winter Music Festival 2025</h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">Join us for the biggest music event of the year featuring top artists from around the world</p>
+        
+        <div class="flex justify-center space-x-4 mb-8" id="countdown">
+            <div class="bg-blue-600 p-4 rounded-lg w-24">
+                <div class="text-3xl font-bold" id="days">00</div>
+                <div class="text-sm">Days</div>
+            </div>
+            <div class="bg-blue-600 p-4 rounded-lg w-24">
+                <div class="text-3xl font-bold" id="hours">00</div>
+                <div class="text-sm">Hours</div>
+            </div>
+            <div class="bg-blue-600 p-4 rounded-lg w-24">
+                <div class="text-3xl font-bold" id="minutes">00</div>
+                <div class="text-sm">Minutes</div>
+            </div>
+            <div class="bg-blue-600 p-4 rounded-lg w-24">
+                <div class="text-3xl font-bold" id="seconds">00</div>
+                <div class="text-sm">Seconds</div>
+            </div>
+        </div>
+
+        <a href="/tickets" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg transition">
+            Get Your Tickets Now
+        </a>
+    </div>
+</section>
+
+<section class="mb-16">
+    <h2 class="text-3xl font-bold mb-6 text-center">Upcoming Event</h2>
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
+        <div class="md:flex">
+            <div class="md:w-1/2">
+                <img src="https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg" alt="Concert" class="w-full h-full object-cover">
+            </div>
+            <div class="p-8 md:w-1/2">
+                <h3 class="text-2xl font-bold mb-4">Winter Music Festival 2025</h3>
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-calendar-alt text-blue-500 mr-2"></i>
+                    <span>December 25, 2025</span>
+                </div>
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                    <span>Madison Square Garden, New York</span>
+                </div>
+                <p class="text-gray-700 mb-6">
+                    Experience the most anticipated music festival of the year featuring international artists across multiple genres. 
+                    Three stages, food trucks, and unforgettable performances await you!
+                </p>
+                <a href="/tickets" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition inline-block">
+                    Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Countdown timer
+    const eventDate = new Date("{{ event_date }}").getTime();
+    
+    const updateCountdown = () => {
+        const now = new Date().getTime();
+        const distance = eventDate - now;
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById("days").innerHTML = days.toString().padStart(2, "0");
+        document.getElementById("hours").innerHTML = hours.toString().padStart(2, "0");
+        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, "0");
+        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, "0");
+        
+        if (distance < 0) {
+            clearInterval(countdownTimer);
+            document.getElementById("countdown").innerHTML = "<div class='text-3xl font-bold'>The event has started!</div>";
+        }
+    };
+    
+    updateCountdown();
+    const countdownTimer = setInterval(updateCountdown, 1000);
+</script>
+{% endblock %}
