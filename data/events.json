@@ -1,0 +1,33 @@
+[
+  {
+    "year": 2023,
+    "events": [
+      {
+        "name": "Summer Rock Fest",
+        "date": "2023-07-15",
+        "venue": "Central Park NYC",
+        "image": "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg",
+        "description": "Our biggest outdoor concert with 50,000 attendees"
+      },
+      {
+        "name": "Winter Symphony",
+        "date": "2023-12-10",
+        "venue": "Carnegie Hall",
+        "image": "https://images.pexels.com/photos/167491/pexels-photo-167491.jpeg",
+        "description": "Holiday special performance with full orchestra"
+      }
+    ]
+  },
+  {
+    "year": 2022,
+    "events": [
+      {
+        "name": "Spring Jazz Festival",
+        "date": "2022-05-20",
+        "venue": "Chicago Theater",
+        "image": "https://images.pexels.com/photos/34221/trumpet-brass-instrument-music.jpg",
+        "description": "Three-day jazz extravaganza featuring world-class musicians"
+      }
+    ]
+  }
+]
