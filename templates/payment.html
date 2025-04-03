@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Complete Payment{% endblock %}
+
+{% block head %}
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+    .payment-container {
+        max-width: 500px;
+        margin: 2rem auto;
+    }
+    #card-element {
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+    }
+    #card-errors {
+        color: #e53e3e;
+        margin: 0.5rem 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="payment-container">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">Complete Your Payment</h1>
+        <p class="mb-6">Total Amount: ${{ "%.2f"|format(amount) }}</p>
+        
+        <form id="payment-form">
+            <div id="card-element">
+                <!-- Stripe card element will be inserted here -->
+            </div>
+            <div id="card-errors" role="alert"></div>
+            <button id="submit-button" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">
+                Pay ${{ "%.2f"|format(amount) }}
+            </button>
+        </form>
+    </div>
+</section>
+
+<script>
+    const stripe = Stripe('{{ stripe_public_key }}');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitButton = document.getElementById('submit-button');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Processing...';
+
+        const {error, paymentIntent} = await stripe.confirmCardPayment(
+            '{{ client_secret }}', {
+                payment_method: {
+                    card: cardElement,
+                }
+            }
+        );
+
+        if (error) {
+            document.getElementById('card-errors').textContent = error.message;
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pay ${{ "%.2f"|format(amount) }}';
+        } else if (paymentIntent.status === 'succeeded') {
+            window.location.href = `/confirmation?order_id={{ order_id }}`;
+        }
+    });
+</script>
+{% endblock %}
